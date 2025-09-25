@@ -40,14 +40,14 @@ scripts:
 [Extract from feature spec: primary requirement + technical approach from research]
 
 ## Technical Context
-**Language/Version**: [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION]  
-**Primary Dependencies**: [e.g., FastAPI, UIKit, LLVM or NEEDS CLARIFICATION]  
-**Storage**: [if applicable, e.g., PostgreSQL, CoreData, files or N/A]  
-**Testing**: [e.g., pytest, XCTest, cargo test or NEEDS CLARIFICATION]  
+**Language/Version**: [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION]
+**Primary Dependencies**: [e.g., FastAPI, UIKit, LLVM or NEEDS CLARIFICATION]
+**Storage**: [if applicable, e.g., PostgreSQL, CoreData, files or N/A]
+**Testing**: [e.g., pytest, XCTest, cargo test or NEEDS CLARIFICATION]
 **Target Platform**: [e.g., Linux server, iOS 15+, WASM or NEEDS CLARIFICATION]
-**Project Type**: [single/web/mobile - determines source structure]  
-**Performance Goals**: [domain-specific, e.g., 1000 req/s, 10k lines/sec, 60 fps or NEEDS CLARIFICATION]  
-**Constraints**: [domain-specific, e.g., <200ms p95, <100MB memory, offline-capable or NEEDS CLARIFICATION]  
+**Project Type**: [single/web/mobile - determines source structure]
+**Performance Goals**: [domain-specific, e.g., 1000 req/s, 10k lines/sec, 60 fps or NEEDS CLARIFICATION]
+**Constraints**: [domain-specific, e.g., <200ms p95, <100MB memory, offline-capable or NEEDS CLARIFICATION]
 **Scale/Scope**: [domain-specific, e.g., 10k users, 1M LOC, 50 screens or NEEDS CLARIFICATION]
 
 ## Constitution Check
@@ -71,38 +71,73 @@ specs/[###-feature]/
 ### Source Code (repository root)
 ```
 # Option 1: Single project (DEFAULT)
+/project-root
+│
+├─ /domain                     # Core business rules & entities (independent)
+│   ├─ /entities               # Business entities
+│   ├─ /value-objects          # Domain value objects
+│   └─ /rules                  # Business rules/invariants
+│
+├─ /application                # Use cases & business orchestration
+│   ├─ /commands               # Command handlers (write side)
+│   ├─ /queries                # Query handlers (read side)
+│   ├─ /interfaces             # Interfaces for repositories, services
+│   └─ /use-cases              # Application-specific use cases
+│
+├─ /presentation               # Front-end / UI layer
+│   ├─ /components             # Reusable UI components
+│   ├─ /views                  # Page-level or screen-level views
+│   ├─ /state                  # State management (e.g., stores, contexts)
+│   ├─ /hooks                  # UI logic hooks (if applicable)
+│   └─ /adapters               # Maps application outputs to UI models
+│
+├─ /adapters                   # Translation layer (connects app <-> infra/UI)
+│   ├─ /dto                    # Data transfer objects
+│   ├─ /mappers                # Transformation between layers
+│   ├─ /controllers            # API endpoints, controllers
+│   └─ /event-handlers         # External event processing
+│
+├─ /infrastructure             # Technical details (outermost layer)
+│   ├─ /database               # Database schemas, clients, migrations
+│   ├─ /repositories           # Repository implementations
+│   ├─ /services               # External/internal service clients
+│   └─ /runtime                # App runtime, config, integrations
+│
+├─ /tests                      # Cross-cutting tests
+│   ├─ /integration
+│   └─ /e2e
+│
+├─ config_files
+└─ package.json (or similar)
+
+# Option 2: Data Pipeline (when "data pipeline" detected)
 src/
-├── models/
-├── services/
-├── cli/
-└── lib/
+├── <package name>/
+│   ├── pipelines/
+│   │   ├── ingestion/
+│   │   ├── transformation/
+│   │   ├── aggregation/
+│   │   ├── forecasting/
+│   │   └── reporting/
+│   ├── nodes/
+│   ├── hooks/
+│   └── settings.py
 
-tests/
-├── contract/
-├── integration/
-└── unit/
+conf/
+├── base/           # Applicable to all environments e.g. parameters
+├── prod/           # Production catalog
+└── local/          # Reads from local file system. Contains credentials (gitignored)
 
-# Option 2: Web application (when "frontend" + "backend" detected)
-backend/
-├── src/
-│   ├── models/
-│   ├── services/
-│   └── api/
-└── tests/
+data/               # Kedro data layers with clear progression:
+├── 01_raw/         # Raw Plaid API responses (JSON)
+├── 02_intermediate/# Cleaned and transformed data
+├── 03_primary/     # Aggregated datasets (e.g. joins)
+├── 04_feature/     #
+├── 05_model_input/ #
+├── 07_model_output/#
+└── 08_reporting/   # Financial statements (cash flow, balance sheet)
 
-frontend/
-├── src/
-│   ├── components/
-│   ├── pages/
-│   └── services/
-└── tests/
-
-# Option 3: Mobile + API (when "iOS/Android" detected)
-api/
-└── [same as backend above]
-
-ios/ or android/
-└── [platform-specific structure]
+tests/              # Contract, integration, unit tests
 ```
 
 **Structure Decision**: [DEFAULT to Option 1 unless Technical Context indicates web/mobile app]
@@ -168,12 +203,12 @@ ios/ or android/
 - Load `.specify/templates/tasks-template.md` as base
 - Generate tasks from Phase 1 design docs (contracts, data model, quickstart)
 - Each contract → contract test task [P]
-- Each entity → model creation task [P] 
+- Each entity → model creation task [P]
 - Each user story → integration test task
 - Implementation tasks to make tests pass
 
 **Ordering Strategy**:
-- TDD order: Tests before implementation 
+- TDD order: Tests before implementation
 - Dependency order: Models before services before UI
 - Mark [P] for parallel execution (independent files)
 
@@ -184,8 +219,8 @@ ios/ or android/
 ## Phase 3+: Future Implementation
 *These phases are beyond the scope of the /plan command*
 
-**Phase 3**: Task execution (/tasks command creates tasks.md)  
-**Phase 4**: Implementation (execute tasks.md following constitutional principles)  
+**Phase 3**: Task execution (/tasks command creates tasks.md)
+**Phase 4**: Implementation (execute tasks.md following constitutional principles)
 **Phase 5**: Validation (run tests, execute quickstart.md, performance validation)
 
 ## Complexity Tracking
