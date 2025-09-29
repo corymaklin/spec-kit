@@ -106,7 +106,12 @@ chmod -x .github/workflows/scripts/create-release-packages.sh
 - Build on macOS (use Docker for GNU tools like `cp --parents`)
 
 ```bash
-docker run --rm -it -v "$PWD":/w -w /w ubuntu:24.04 bash -lc "apt-get update && apt-get install -y zip && chmod +x .github/workflows/scripts/create-release-packages.sh && .github/workflows/scripts/create-release-packages.sh v0.0.1 && chmod -x .github/workflows/scripts/create-release-packages.sh"
+ docker run --rm -it -v "$PWD":/w -w /w ubuntu:24.04 bash -lc \
+    "apt-get update && \
+     apt-get install -y zip && \
+     chmod +x .github/workflows/scripts/create-release-packages.sh && \
+     .github/workflows/scripts/create-release-packages.sh v0.0.1 && \
+     chmod -x .github/workflows/scripts/create-release-packages.sh"
 ```
 
 - (Optional) Build only specific variants
