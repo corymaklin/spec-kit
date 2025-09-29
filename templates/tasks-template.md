@@ -37,9 +37,17 @@
 - Include exact file paths in descriptions
 
 ## Path Conventions
-- **Single project**: `src/`, `tests/` at repository root
-- **Web app**: `backend/src/`, `frontend/src/`
-- **Mobile**: `api/src/`, `ios/src/` or `android/src/`
+- **Single project (DEFAULT)**: Clean architecture layers at repository root
+  - `/domain/` - Core business rules & entities
+  - `/application/` - Use cases & business orchestration
+  - `/presentation/` - Front-end / UI layer
+  - `/adapters/` - Translation layer
+  - `/infrastructure/` - Technical details
+  - `/tests/` - Cross-cutting tests
+- **Data Pipeline**: When "data pipeline" detected
+  - `src/<package>/pipelines/` - Pipeline stages
+  - `conf/` - Configuration by environment
+  - `data/` - Kedro data layers (01_raw through 08_reporting)
 - Paths shown below assume single project - adjust based on plan.md structure
 
 ## Phase 3.1: Setup
@@ -49,31 +57,31 @@
 
 ## Phase 3.2: Tests First (TDD) ⚠️ MUST COMPLETE BEFORE 3.3
 **CRITICAL: These tests MUST be written and MUST FAIL before ANY implementation**
-- [ ] T004 [P] Contract test POST /api/users in tests/contract/test_users_post.py
-- [ ] T005 [P] Contract test GET /api/users/{id} in tests/contract/test_users_get.py
+- [ ] T004 [P] Contract test POST /api/users in tests/integration/test_users_post.py
+- [ ] T005 [P] Contract test GET /api/users/{id} in tests/integration/test_users_get.py
 - [ ] T006 [P] Integration test user registration in tests/integration/test_registration.py
 - [ ] T007 [P] Integration test auth flow in tests/integration/test_auth.py
 
 ## Phase 3.3: Core Implementation (ONLY after tests are failing)
-- [ ] T008 [P] User model in src/models/user.py
-- [ ] T009 [P] UserService CRUD in src/services/user_service.py
-- [ ] T010 [P] CLI --create-user in src/cli/user_commands.py
-- [ ] T011 POST /api/users endpoint
-- [ ] T012 GET /api/users/{id} endpoint
-- [ ] T013 Input validation
-- [ ] T014 Error handling and logging
+- [ ] T008 [P] User entity in domain/entities/user.py
+- [ ] T009 [P] User use cases in application/use-cases/user_use_cases.py
+- [ ] T010 [P] User controller in adapters/controllers/user_controller.py
+- [ ] T011 POST /api/users endpoint in adapters/controllers/user_controller.py
+- [ ] T012 GET /api/users/{id} endpoint in adapters/controllers/user_controller.py
+- [ ] T013 Input validation in adapters/dto/user_dto.py
+- [ ] T014 Error handling and logging in infrastructure/runtime/error_handler.py
 
 ## Phase 3.4: Integration
-- [ ] T015 Connect UserService to DB
-- [ ] T016 Auth middleware
-- [ ] T017 Request/response logging
-- [ ] T018 CORS and security headers
+- [ ] T015 User repository implementation in infrastructure/repositories/user_repository.py
+- [ ] T016 Auth middleware in adapters/middleware/auth.py
+- [ ] T017 Request/response logging in infrastructure/runtime/logging.py
+- [ ] T018 CORS and security headers in infrastructure/runtime/security.py
 
 ## Phase 3.5: Polish
-- [ ] T019 [P] Unit tests for validation in tests/unit/test_validation.py
-- [ ] T020 Performance tests (<200ms)
-- [ ] T021 [P] Update docs/api.md
-- [ ] T022 Remove duplication
+- [ ] T019 [P] Unit tests for domain entities in tests/unit/test_user_entity.py
+- [ ] T020 Performance tests (<200ms) in tests/e2e/test_performance.py
+- [ ] T021 [P] Update API documentation
+- [ ] T022 Remove duplication across layers
 - [ ] T023 Run manual-testing.md
 
 ## Dependencies
@@ -85,8 +93,8 @@
 ## Parallel Example
 ```
 # Launch T004-T007 together:
-Task: "Contract test POST /api/users in tests/contract/test_users_post.py"
-Task: "Contract test GET /api/users/{id} in tests/contract/test_users_get.py"
+Task: "Contract test POST /api/users in tests/integration/test_users_post.py"
+Task: "Contract test GET /api/users/{id} in tests/integration/test_users_get.py"
 Task: "Integration test registration in tests/integration/test_registration.py"
 Task: "Integration test auth in tests/integration/test_auth.py"
 ```
