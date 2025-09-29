@@ -12,39 +12,6 @@
 <!-- Example: II. CLI Interface -->
 [PRINCIPLE_2_DESCRIPTION]
 <!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
-### 
-When you need to install a package. Add it to the package requirements (e.g. setup.py) before so that another dev can easily re-create the env locally.
-
-### Separation of Concerns (Each layer of tech stack as separate packages)
-Each layer of the architecture should be implemented as its own package or module. This enforces clear boundaries, reduces accidental coupling, and makes it easier to maintain, test, and replace parts of the system independently.
-
-### Ship complete vertical slices before broadening horizontally
-For every new feature, we aim to produce a working slice of functionality that covers the entire flow — from interface to persistence — for at least one concrete use case.
-
-For example: Instead of partially building storage, UI, and event processing modules in isolation, we ship a full, usable flow such as “Add Liquidity” before moving on to “Remove Liquidity” or “Swap.”
-
-### Fakes instead of mocks for unit tests
-A fake is a lightweight, in-memory implementation of an interface that behaves like the real system but is fast and predictable.
-Avoid mock objects that just record calls or verify interactions, because they often couple tests to implementation details rather than behavior.
-
-### Atomic Commits
-- Each commit should capture exactly **one logical change** (e.g., implementing a use case, fixing a bug, refactoring a module).
-- A commit must leave the codebase in a **buildable, testable, and working state** (i.e. can't commit when tests are failing).
-
-### Polymorphism / Avoiding Big Ifs
-Instead of polymorphism via classes, FP typically uses algebraic data types (ADTs) and pattern matching.
-
-Example (Elm/Scala/F# style):
-```
-type PaymentMethod =
-    | CreditCard of CardInfo
-    | PayPal of Email
-
-let charge payment amount =
-    match payment with
-    | CreditCard info -> chargeCreditCard info amount
-    | PayPal email    -> chargePayPal email amount
-```
 
 ### [PRINCIPLE_3_NAME]
 <!-- Example: III. Test-First (NON-NEGOTIABLE) -->
