@@ -1,0 +1,44 @@
+{
+    "permissions": {
+        "allow": [
+            "Bash(kedro run:*)",
+            "Bash(kedro registry:*)",
+            "mcp__context7__get-library-docs",
+            "mcp__context7__resolve-library-id",
+            "WebFetch(domain:github.com)",
+            "WebFetch(domain:raw.githubusercontent.com)",
+            "mcp__notion__search",
+            "mcp__notion__fetch",
+            "Bash(pytest:*)",
+            "Bash(pylint:*)",
+            "Bash(pip install:*)",
+            "Bash(find:*)",
+            "Bash(ruff check:*)"
+        ],
+        "deny": []
+    },
+    "hooks": {
+        "Stop": [
+            {
+                "matcher": "",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "afplay /System/Library/Sounds/Glass.aiff"
+                    }
+                ]
+            }
+        ],
+        "Notification": [
+            {
+                "marcher": "",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "afplay /System/Library/Sounds/Glass.aiff"
+                    }
+                ]
+            }
+        ]
+    }
+}

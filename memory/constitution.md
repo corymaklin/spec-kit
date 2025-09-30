@@ -48,3 +48,10 @@
 
 **Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
 <!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+
+## Command Preferences
+- MUST use direct command invocation rather than `python -m <pkg>`
+- For linting: Use `pylint ...` NOT `python -m pylint ...`
+- For testing: Use `pytest ...` NOT `python -m pytest ...`
+- For other Python tools: Use the direct command when available
+- If "command not found" then install it by adding it to the requirements.txt then installing the dependencies
