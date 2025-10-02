@@ -16,7 +16,7 @@
             "Bash(ruff check:*)",
             "Bash(cfn-lint:*)",
             "Bash(grep:*)",
-            // aws
+
             "Bash(aws iam get-role:*)",
             "Bash(aws glue get-databases:*)",
             "Bash(aws cloudformation describe-stacks:*)",
@@ -43,7 +43,7 @@
             "Bash(aws s3 ls:*)",
             "Bash(aws glue list-jobs:*)",
             "Bash(aws glue list-crawlers:*)",
-            // git
+
             "Bash(git status:*)",
             "Bash(git log:*)",
             "Bash(git show:*)",
@@ -60,7 +60,7 @@
             "Bash(git restore:*)"
         ],
         "deny": [
-            // git
+
             "Bash(git reset:*)",
             "Bash(git revert:*)",
             "Bash(git rebase:*)",
@@ -78,7 +78,7 @@
             "Bash(git branch --delete --force:*)",
             "Bash(git update-ref:*)",
             "Bash(git checkout --orphan:*)",
-            // terminal
+
             "Bash(rm -rf .git:*)",
             "Bash(rm -rf -- .git:*)",
             "Bash(rm -rf /*:*)",
@@ -101,7 +101,7 @@
             "Bash(ksh:*)",
             "Bash(dash:*)",
             "Bash(exec:*)",
-            // aws
+
             "Bash(aws s3 rb:*)",
             "Bash(aws s3 rm:*)",
             "Bash(aws s3api delete-bucket:*)"
