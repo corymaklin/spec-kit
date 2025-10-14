@@ -11,10 +11,12 @@ For example: Instead of partially building storage, UI, and event processing mod
 ### Atomic Commits
 - Each commit should capture exactly **one logical change** (e.g., implementing a use case, fixing a bug, refactoring a module).
 - A commit must leave the codebase in a **buildable, testable, and working state** (i.e. can't commit when tests are failing).
-- We want a commit when we complete 1 large task in the tasks.md (includes multiple subtasks)
+- We want a commit when we complete 1 large task in the tasks.md (after completing multiple subtasks)
 
 ### Layer as Separate Packages
 Each layer of the architecture should be implemented as its own package or module. This enforces clear boundaries, reduces accidental coupling, and makes it easier to maintain, test, and replace parts of the system independently.
+
+This means all unit tests should be in the tests/ folder of the package and not the root of the repository.
 
 ### Contract First Development
 Define the interfaces for all the layers before implementing a vertical slice (end-to-end functionality for specific use-case).
