@@ -3,6 +3,22 @@
 
 ## Core Principles
 
+### Ship complete vertical slices before broadening horizontally
+For every new feature, we aim to produce a working slice of functionality that covers the entire flow — from interface to persistence — for at least one concrete use case.
+
+For example: Instead of partially building storage, UI, and event processing modules in isolation, we ship a full, usable flow such as "Shopping Cart" before moving on to "Wish List" or "Checkout."
+
+### Atomic Commits
+- Each commit should capture exactly **one logical change** (e.g., implementing a use case, fixing a bug, refactoring a module).
+- A commit must leave the codebase in a **buildable, testable, and working state** (i.e. can't commit when tests are failing).
+- We want a commit when we complete 1 large task in the tasks.md (includes multiple subtasks)
+
+### Layer as Separate Packages
+Each layer of the architecture should be implemented as its own package or module. This enforces clear boundaries, reduces accidental coupling, and makes it easier to maintain, test, and replace parts of the system independently.
+
+### Contract First Development
+Define the interfaces for all the layers before implementing a vertical slice (end-to-end functionality for specific use-case).
+
 ### [PRINCIPLE_1_NAME]
 <!-- Example: I. Library-First -->
 [PRINCIPLE_1_DESCRIPTION]
@@ -48,10 +64,3 @@
 
 **Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
 <!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
-
-## Command Preferences
-- MUST use direct command invocation rather than `python -m <pkg>`
-- For linting: Use `pylint ...` NOT `python -m pylint ...`
-- For testing: Use `pytest ...` NOT `python -m pytest ...`
-- For other Python tools: Use the direct command when available
-- If "command not found" then install it by adding it to the requirements.txt then installing the dependencies
