@@ -13,8 +13,14 @@ Each layer of the architecture should be implemented as its own package or modul
 
 This means all unit tests should be in the tests/ folder of the package and not the root of the repository.
 
+### Check the official docs first
+We want to avoid relying on 3rd party libraries for calling APIs if we don't need to and use requests instead.
+
 ### Contract First Development
 Define the interfaces for all the layers before implementing end-to-end functionality for specific use-case.
+
+### Authentication Method
+Confirm whether you can just use an API key the user provides in a configuration file or environment or whether they need to use OAuth in browser
 
 ### Contract Tests (Unit Test the Adapter)
 Use recorded or mocked responses that represent the real API’s contract:
