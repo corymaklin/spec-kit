@@ -13,6 +13,8 @@ $ARGUMENTS
 
 Given the implementation details provided as an argument, do this:
 
+**IMPORTANT: Limit yourself to a maximum of 3 WebFetch or WebSearch calls during this entire planning session. Only use web research if absolutely critical and you lack the knowledge to proceed.**
+
 1. Run `{SCRIPT}` from the repo root and parse JSON for FEATURE_SPEC, IMPL_PLAN, SPECS_DIR, BRANCH. All future file paths must be absolute.
    - BEFORE proceeding, inspect FEATURE_SPEC for a `## Clarifications` section with at least one `Session` subheading. If missing or clearly ambiguous areas remain (vague adjectives, unresolved critical choices), PAUSE and instruct the user to run `/clarify` first to reduce rework. Only continue if: (a) Clarifications exist OR (b) an explicit user override is provided (e.g., "proceed without clarification"). Do not attempt to fabricate clarifications yourself.
 2. Read and analyze the feature specification to understand:
