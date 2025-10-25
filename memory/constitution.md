@@ -3,11 +3,6 @@
 
 ## Core Principles
 
-### Ship complete vertical slices before broadening horizontally
-For every new feature, we aim to produce a working slice of functionality that covers the entire flow — from interface to persistence — for at least one concrete use case.
-
-For example: Instead of partially building storage, UI, and event processing modules in isolation, we ship a full, usable flow such as "Shopping Cart" before moving on to "Wish List" or "Checkout."
-
 ### Atomic Commits
 - Each commit should capture exactly **one logical change** (e.g., implementing a use case, fixing a bug, refactoring a module).
 - A commit must leave the codebase in a **buildable, testable, and working state** (i.e. can't commit when tests are failing).
