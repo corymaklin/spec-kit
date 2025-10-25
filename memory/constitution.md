@@ -14,7 +14,33 @@ Each layer of the architecture should be implemented as its own package or modul
 This means all unit tests should be in the tests/ folder of the package and not the root of the repository.
 
 ### Contract First Development
-Define the interfaces for all the layers before implementing a vertical slice (end-to-end functionality for specific use-case).
+Define the interfaces for all the layers before implementing end-to-end functionality for specific use-case.
+
+### Contract Tests (Unit Test the Adapter)
+Use recorded or mocked responses that represent the real API’s contract:
+```
+describe OrderApiAdapter do
+  it "parses order correctly from external API" do
+    stub_request(:get, "https://api.vendor.com/orders/123")
+      .to_return(body: '{"id":"123","total":99.0,"state":"approved"}')
+
+    order = adapter.fetch_order("123")
+
+    expect(order.total).to eq(99.0)
+    expect(order.status).to eq(:approved)
+  end
+end
+```
+
+Never let your domain depend on raw API JSON.
+Your adapter should translate external DTOs into internal Value Objects:
+```
+# external payload
+{ "id": "123", "state": "approved", "total": 99.0 }
+
+# internal domain model
+Order.new(id: "123", status: :approved, amount: Money.new(9900, "USD"))
+```
 
 ### [PRINCIPLE_1_NAME]
 <!-- Example: I. Library-First -->
