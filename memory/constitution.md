@@ -3,6 +3,28 @@
 
 ## Core Principles
 
+### Minimize initial data retrieval
+When invoking commands that query external systems (such as GitHub, AWS, or similar APIs), prefer commands that limit the scope or size of results initially.
+Use pagination or explicit limits (e.g., --limit 100, --max-items, --page-size, etc.) to avoid retrieving large datasets that could cause the tool or integration to fail due to excessive output.
+Example:
+```bash
+gh pr list --state open --limit 100
+```
+rather than an unbounded query.
+
+### Prefer CLI arguments over inline environment variables
+When configuring CLI commands that support built-in options for credentials, region, or profile selection, prefer explicit CLI arguments (e.g., --profile <value>, --region <value>, --account <value>) over setting environment variables inline using syntax such as export VAR=... command.
+This ensures the command remains consistent with system-level defaults or allowlists, and avoids conflicts with tools that handle environment variables differently.
+Example:
+```bash
+aws s3 ls --profile dev --region us-east-1
+```
+instead of
+```bash
+AWS_PROFILE=dev AWS_REGION=us-east-1 aws s3 ls
+```
+The rule applies generically to all CLI tools that support configuration through flags or arguments.
+
 ### Atomic Commits
 - Each commit should capture exactly **one logical change** (e.g., implementing a use case, fixing a bug, refactoring a module).
 - A commit must leave the codebase in a **buildable, testable, and working state** (i.e. can't commit when tests are failing).
